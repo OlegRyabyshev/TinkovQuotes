@@ -5,23 +5,21 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Edit
-import androidx.compose.material.icons.outlined.Favorite
-import androidx.compose.material.icons.outlined.List
-import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.tinkovquotes.R
+import com.example.tinkovquotes.model.presentation.main.MainNavigationTab.FAVORITES_TAB
+import com.example.tinkovquotes.model.presentation.main.MainNavigationTab.QUOTES_TAB
+import com.example.tinkovquotes.model.presentation.main.MainNavigationTab.VIDEO_CREATOR_TAB
+import com.example.tinkovquotes.presentation.screen.favorites.FavoritesScreen
+import com.example.tinkovquotes.presentation.screen.quotes.QuotesScreen
+import com.example.tinkovquotes.presentation.screen.videocreator.VideoCreatorScreen
 import com.example.tinkovquotes.presentation.theme.TinkovQuotesTheme
 
 class MainActivity : ComponentActivity() {
@@ -30,17 +28,20 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             TinkovQuotesTheme {
-                Scaffold(
-                    bottomBar = { MainBottomNavigationBar() }
-                ) { padding ->
-                    Surface(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(padding),
-                        color = MaterialTheme.colorScheme.background
-                    ) {
+                val rootNavHostController = rememberNavController()
 
+
+                Scaffold(
+                    bottomBar = {
+                        MainBottomAppBar(
+                            rootNavController = rootNavHostController
+                        )
                     }
+                ) { padding ->
+                    MainContent(
+                        modifier = Modifier.padding(padding),
+                        rootNavHostController = rootNavHostController
+                    )
                 }
             }
         }
@@ -48,49 +49,29 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-@Preview
-private fun MainBottomNavigationBar() {
-    BottomAppBar {
-        NavigationBarItem(
-            selected = false,
-            onClick = { /*TODO*/ },
-            icon = {
-                Icon(
-                    imageVector = Icons.Outlined.List,
-                    contentDescription = stringResource(id = R.string.quotes_screen_label)
-                )
-            },
-            label = {
-                Text(text = stringResource(id = R.string.quotes_screen_label))
+private fun MainContent(
+    rootNavHostController: NavHostController,
+    modifier: Modifier = Modifier
+) {
+    Surface(
+        modifier = modifier.fillMaxSize(),
+        color = MaterialTheme.colorScheme.background
+    ) {
+        NavHost(
+            navController = rootNavHostController,
+            startDestination = QUOTES_TAB.route
+        ) {
+            composable(QUOTES_TAB.route) {
+                QuotesScreen()
             }
-        )
 
-        NavigationBarItem(
-            selected = false,
-            onClick = { /*TODO*/ },
-            icon = {
-                Icon(
-                    imageVector = Icons.Outlined.Edit,
-                    contentDescription = stringResource(id = R.string.creator_screen_label)
-                )
-            },
-            label = {
-                Text(text = stringResource(id = R.string.creator_screen_label))
+            composable(VIDEO_CREATOR_TAB.route) {
+                VideoCreatorScreen()
             }
-        )
 
-        NavigationBarItem(
-            selected = false,
-            onClick = { /*TODO*/ },
-            icon = {
-                Icon(
-                    imageVector = Icons.Outlined.Favorite,
-                    contentDescription = stringResource(id = R.string.favorites_screen_label)
-                )
-            },
-            label = {
-                Text(text = stringResource(id = R.string.favorites_screen_label))
+            composable(FAVORITES_TAB.route) {
+                FavoritesScreen()
             }
-        )
+        }
     }
 }

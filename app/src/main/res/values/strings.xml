@@ -3,5 +3,5 @@
 
     <string name="quotes_screen_label">Цитаты</string>
     <string name="creator_screen_label">Создать видео</string>
-    <string name="favorites_screen_label">Избранное</string>
+    <string name="favorites_screen_label">Избранные</string>
 </resources>
