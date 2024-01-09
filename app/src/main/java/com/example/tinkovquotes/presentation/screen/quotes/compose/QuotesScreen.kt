@@ -1,4 +1,4 @@
-package com.example.tinkovquotes.presentation.screen.quotes
+package com.example.tinkovquotes.presentation.screen.quotes.compose
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
