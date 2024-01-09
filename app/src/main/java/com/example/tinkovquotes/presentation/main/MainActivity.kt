@@ -17,8 +17,8 @@ import androidx.navigation.compose.rememberNavController
 import com.example.tinkovquotes.model.presentation.main.MainNavigationTab.FAVORITES_TAB
 import com.example.tinkovquotes.model.presentation.main.MainNavigationTab.QUOTES_TAB
 import com.example.tinkovquotes.model.presentation.main.MainNavigationTab.VIDEO_CREATOR_TAB
-import com.example.tinkovquotes.presentation.screen.favorites.FavoritesScreen
-import com.example.tinkovquotes.presentation.screen.quotes.QuotesScreen
+import com.example.tinkovquotes.presentation.screen.favorites.compose.FavoritesScreen
+import com.example.tinkovquotes.presentation.screen.quotes.compose.QuotesScreen
 import com.example.tinkovquotes.presentation.screen.videocreator.VideoCreatorScreen
 import com.example.tinkovquotes.presentation.theme.TinkovQuotesTheme
 
