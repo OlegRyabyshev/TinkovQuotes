@@ -23,6 +23,7 @@ import com.example.tinkovquotes.presentation.screen.videocreator.VideoCreatorScr
 import com.example.tinkovquotes.presentation.theme.TinkovQuotesTheme
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
