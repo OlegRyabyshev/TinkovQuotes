@@ -12,10 +12,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
@@ -29,9 +29,11 @@ import androidx.compose.ui.unit.dp
 import com.example.tinkovquotes.model.presentation.screen.quotes.QuoteItem
 import com.example.tinkovquotes.presentation.theme.Typography
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun QuoteCard(
     quoteItem: QuoteItem,
+    onClick: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -39,7 +41,11 @@ fun QuoteCard(
             .fillMaxWidth()
             .height(76.dp)
             .clip(RoundedCornerShape(16.dp)),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+//        colors = CardDefaults.cardColors(contentColor = ),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+        onClick = {
+            onClick.invoke(quoteItem.id)
+        }
     ) {
         Box(modifier.fillMaxSize()) {
             Row(modifier.fillMaxSize()) {
@@ -54,7 +60,7 @@ fun QuoteCard(
                         text = quoteItem.titleText,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
-                        style =  Typography.titleSmall
+                        style = Typography.titleMedium
                     )
                     Text(
                         modifier = modifier.padding(
@@ -81,18 +87,20 @@ fun QuoteCard(
                     contentDescription = null
                 )
 
-                Icon(
-                    modifier = Modifier
-                        .padding(end = 12.dp)
-                        .size(48.dp)
-                        .align(Alignment.CenterVertically),
-                    imageVector = if (quoteItem.isPlaying) {
-                        Icons.Filled.PlayArrow
-                    } else {
-                        Icons.Default.Info
-                    },
-                    contentDescription = null
-                )
+                if (quoteItem.isPlaying) {
+                    Icon(
+                        modifier = Modifier
+                            .padding(end = 12.dp)
+                            .size(48.dp)
+                            .align(Alignment.CenterVertically),
+                        imageVector = if (quoteItem.isPlaying) {
+                            Icons.Filled.PlayArrow
+                        } else {
+                            Icons.Default.PlayArrow
+                        },
+                        contentDescription = null
+                    )
+                }
             }
 
             LinearProgressIndicator(
@@ -118,5 +126,8 @@ private fun QuoteCardPreview() {
         isFavorite = true
     )
 
-    QuoteCard(quoteItem)
+    QuoteCard(
+        quoteItem = quoteItem,
+        onClick = {}
+    )
 }
