@@ -49,10 +49,7 @@ class MainActivity : ComponentActivity() {
                     MainContent(
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(
-                                top = padding.calculateTopPadding(),
-                                bottom = padding.calculateBottomPadding()
-                            ),
+                            .padding(bottom = padding.calculateBottomPadding()),
                         rootNavHostController = rootNavHostController
                     )
                 }

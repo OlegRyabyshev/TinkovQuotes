@@ -1,7 +1,9 @@
 <resources>
-    <string name="app_name">TinkovQuotes</string>
+    <string name="app_name">TinQuotes</string>
 
     <string name="quotes_screen_label">Цитаты</string>
     <string name="creator_screen_label">Создать видео</string>
     <string name="favorites_screen_label">Избранные</string>
+
+    <string name="search_hint">"Искать цитату"</string>
 </resources>

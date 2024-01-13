@@ -26,12 +26,16 @@ fun QuotesScreen() {
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
+        QuoteSearch()
+
         LazyColumn(
             modifier = Modifier.weight(1f),
             verticalArrangement = Arrangement.spacedBy(8.dp),
             contentPadding = PaddingValues(
-                horizontal = 16.dp,
-                vertical = 16.dp
+                start = 16.dp,
+                end = 16.dp,
+                top = 10.dp,
+                bottom = 16.dp
             )
         ) {
             items(quoteList) { quoteItem ->
@@ -41,7 +45,5 @@ fun QuotesScreen() {
                 )
             }
         }
-
-        QuoteSearch()
     }
 }
