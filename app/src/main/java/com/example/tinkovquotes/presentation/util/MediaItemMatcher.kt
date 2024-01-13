@@ -1,11 +1,11 @@
 package com.example.tinkovquotes.presentation.util
 
+import android.annotation.SuppressLint
 import androidx.media3.common.MediaItem
-import androidx.media3.common.util.UnstableApi
 import androidx.media3.datasource.RawResourceDataSource
 import com.example.tinkovquotes.R
 
-@UnstableApi
+@SuppressLint("UnsafeOptInUsageError")
 object MediaItemMatcher {
 
     fun getMediaItemById(quoteId: Int): MediaItem {

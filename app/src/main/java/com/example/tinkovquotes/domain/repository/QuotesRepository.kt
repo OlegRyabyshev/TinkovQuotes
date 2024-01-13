@@ -7,4 +7,6 @@ interface QuotesRepository {
     fun getQuotesList(): List<QuoteDataModel>
 
     fun getFavoriteQuotesIdList(): List<Int>
+
+    fun updateFavoriteState(quoteId: Int, isFavorite: Boolean)
 }

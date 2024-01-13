@@ -25,10 +25,10 @@ enum class MainNavigationTab(
         route = "creator_tab"
     ),
 
-    FAVORITES_TAB(
+    FAVORITE_QUOTES_TAB(
         title = R.string.favorites_screen_label,
         outlinedIcon = R.drawable.ic_favorite_24dp,
         filledIcon = R.drawable.ic_favorite_filled_24dp,
-        route = "favorites_tab"
+        route = "favorite_quotes_tab"
     )
 }

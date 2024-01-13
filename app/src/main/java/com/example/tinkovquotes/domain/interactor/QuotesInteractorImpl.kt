@@ -20,4 +20,11 @@ class QuotesInteractorImpl(
             )
         }
     }
+
+    override fun getFavoriteQuotesList(): List<QuoteDomainModel> =
+        getQuotesList().filter { it.isFavorite }
+
+    override fun updateFavoriteState(quoteId: Int, isFavorite: Boolean) {
+        quotesRepository.updateFavoriteState(quoteId, isFavorite)
+    }
 }
