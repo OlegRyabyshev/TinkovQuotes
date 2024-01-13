@@ -22,7 +22,8 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
@@ -71,6 +72,9 @@ dependencies {
     // Koin
     implementation("io.insert-koin:koin-android:3.5.3")
     implementation("io.insert-koin:koin-androidx-compose:3.5.3")
+
+    // Exoplayer
+    implementation("androidx.media3:media3-exoplayer:1.2.0")
 
     // Tests
     androidTestImplementation(platform("androidx.compose:compose-bom:2023.08.00"))

@@ -25,4 +25,12 @@ class QuotesViewModel(
             )
         }
     }
+
+    fun onQuoteClick(quoteId: Int) {
+
+    }
+
+    fun onFavoriteChange(quoteId: Int, isFavorite: Boolean) {
+
+    }
 }
