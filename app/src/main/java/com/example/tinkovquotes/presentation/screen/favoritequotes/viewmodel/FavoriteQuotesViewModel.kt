@@ -1,4 +1,4 @@
-package com.example.tinkovquotes.presentation.screen.quotes.viewmodel
+package com.example.tinkovquotes.presentation.screen.favoritequotes.viewmodel
 
 import androidx.lifecycle.ViewModel
 import com.example.tinkovquotes.domain.interactor.QuotesInteractor
@@ -6,19 +6,15 @@ import com.example.tinkovquotes.model.domain.quote.QuoteDomainModel
 import com.example.tinkovquotes.model.presentation.screen.quotes.QuoteItem
 import kotlinx.coroutines.flow.MutableStateFlow
 
-class QuotesViewModel(
+class FavoriteQuotesViewModel(
     private val quotesInteractor: QuotesInteractor
 ) : ViewModel() {
 
     private val _quotesListStateFlow = MutableStateFlow<List<QuoteItem>>(emptyList())
     val quotesListStateFlow = _quotesListStateFlow
 
-    fun onQuoteClick(quoteId: Int) {
-
-    }
-
-    fun updateQuotesList() {
-        val quotesList = quotesInteractor.getQuotesList()
+    fun updateFavoriteQuotesList() {
+        val quotesList = quotesInteractor.getFavoriteQuotesList()
 
         _quotesListStateFlow.value = convertToQuoteItemList(quotesList)
     }
@@ -26,7 +22,7 @@ class QuotesViewModel(
     fun onFavoriteChange(quoteId: Int, isFavorite: Boolean) {
         quotesInteractor.updateFavoriteState(quoteId, isFavorite)
 
-        updateQuotesList()
+        updateFavoriteQuotesList()
     }
 
     private fun convertToQuoteItemList(quotesList: List<QuoteDomainModel>) =
