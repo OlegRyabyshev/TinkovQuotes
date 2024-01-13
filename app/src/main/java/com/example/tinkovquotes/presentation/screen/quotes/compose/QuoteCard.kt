@@ -34,6 +34,7 @@ import com.example.tinkovquotes.presentation.theme.Typography
 fun QuoteCard(
     quoteItem: QuoteItem,
     onClick: (Int) -> Unit,
+    onFavoriteChange: (Int, Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -49,9 +50,12 @@ fun QuoteCard(
         Box(
             modifier
                 .fillMaxSize()
-                .padding(end = 12.dp)
+                .padding(end = 4.dp)
         ) {
-            QuoteCardContent(quoteItem)
+            QuoteCardContent(
+                quoteItem = quoteItem,
+                onFavoriteChange = onFavoriteChange
+            )
 
             if (quoteItem.isPlaying) {
                 LinearProgressIndicator(
@@ -67,7 +71,10 @@ fun QuoteCard(
 }
 
 @Composable
-private fun QuoteCardContent(quoteItem: QuoteItem) {
+private fun QuoteCardContent(
+    quoteItem: QuoteItem,
+    onFavoriteChange: (Int, Boolean) -> Unit
+) {
     Row(Modifier.fillMaxSize()) {
         Column(modifier = Modifier.weight(1f)) {
             Text(
@@ -101,9 +108,11 @@ private fun QuoteCardContent(quoteItem: QuoteItem) {
         IconButton(
             modifier = Modifier
                 .padding(start = 8.dp)
-                .size(54.dp)
+                .size(48.dp)
                 .align(Alignment.CenterVertically),
-            onClick = {}
+            onClick = {
+                onFavoriteChange.invoke(quoteItem.id, !quoteItem.isFavorite)
+            }
         ) {
             Icon(
                 modifier = Modifier
@@ -117,7 +126,7 @@ private fun QuoteCardContent(quoteItem: QuoteItem) {
         if (quoteItem.isPlaying) {
             IconButton(
                 modifier = Modifier
-                    .size(54.dp)
+                    .size(48.dp)
                     .align(Alignment.CenterVertically),
                 onClick = {}
             ) {
@@ -145,6 +154,7 @@ private fun QuoteCardPreview() {
 
     QuoteCard(
         quoteItem = quoteItem,
-        onClick = {}
+        onClick = {},
+        onFavoriteChange = { _, _ -> }
     )
 }

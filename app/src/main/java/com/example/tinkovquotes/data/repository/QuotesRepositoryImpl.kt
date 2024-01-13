@@ -12,5 +12,5 @@ class QuotesRepositoryImpl(
         quotesProvider.getQuotesList()
 
     override fun getFavoriteQuotesIdList(): List<Int> =
-        listOf(1, 2)
+        listOf()
 }
