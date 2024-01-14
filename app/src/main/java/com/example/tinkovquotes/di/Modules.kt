@@ -1,6 +1,7 @@
 package com.example.tinkovquotes.di
 
 import android.content.Context
+import androidx.media3.exoplayer.ExoPlayer
 import com.example.tinkovquotes.data.provider.QuotesProvider
 import com.example.tinkovquotes.data.provider.QuotesProviderImpl
 import com.example.tinkovquotes.data.repository.QuotesRepositoryImpl
@@ -9,7 +10,9 @@ import com.example.tinkovquotes.data.sharedprefs.QuotesSharedPreferenceImpl
 import com.example.tinkovquotes.domain.interactor.QuotesInteractor
 import com.example.tinkovquotes.domain.interactor.QuotesInteractorImpl
 import com.example.tinkovquotes.domain.repository.QuotesRepository
+import com.example.tinkovquotes.presentation.player.sound.QuotesSoundPlayer
 import com.example.tinkovquotes.presentation.screen.favoritequotes.viewmodel.FavoriteQuotesViewModel
+import com.example.tinkovquotes.presentation.screen.quotes.viewmodel.QuotesSharedPlayerViewModel
 import com.example.tinkovquotes.presentation.screen.quotes.viewmodel.QuotesViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -42,6 +45,25 @@ val appModule = module {
 }
 
 val viewModelModule = module {
-    viewModel { QuotesViewModel(get()) }
-    viewModel { FavoriteQuotesViewModel(get()) }
+    viewModel {
+        QuotesSharedPlayerViewModel(get())
+    }
+
+    viewModel {
+        QuotesViewModel(get())
+    }
+
+    viewModel {
+        FavoriteQuotesViewModel(get())
+    }
+}
+
+val exoPlayerModule = module {
+    single<ExoPlayer> {
+        ExoPlayer.Builder(androidContext()).build()
+    }
+
+    single<QuotesSoundPlayer> {
+        QuotesSoundPlayer(get(), get())
+    }
 }

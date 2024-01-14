@@ -4,39 +4,39 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.media3.exoplayer.ExoPlayer
 import com.example.tinkovquotes.presentation.common.search.QuoteSearch
+import com.example.tinkovquotes.presentation.screen.quotes.viewmodel.QuotesSharedPlayerViewModel
 import com.example.tinkovquotes.presentation.screen.quotes.viewmodel.QuotesViewModel
-import com.example.tinkovquotes.presentation.util.MediaItemMatcher
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun QuotesScreen() {
-    val quotesViewModel = koinViewModel<QuotesViewModel>()
-    val quoteList by quotesViewModel.quotesListStateFlow.collectAsStateWithLifecycle()
+    val viewModel = koinViewModel<QuotesViewModel>()
+    val playerViewModel = koinViewModel<QuotesSharedPlayerViewModel>()
 
-    val context = LocalContext.current
-    val exoPlayer = remember { ExoPlayer.Builder(context).build() }
+    val quoteList by viewModel.quotesListStateFlow.collectAsStateWithLifecycle()
+    val currentlyPlayingQuoteId by playerViewModel.currentlyPlayingQuoteId.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
-        quotesViewModel.updateQuotesList()
+        viewModel.updateQuotesList()
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
         QuoteSearch()
 
         LazyColumn(
-            modifier = Modifier.weight(1f),
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(8.dp),
             contentPadding = PaddingValues(
                 start = 16.dp,
@@ -51,14 +51,9 @@ fun QuotesScreen() {
             ) { quoteItem ->
                 QuoteCard(
                     quoteItem = quoteItem,
-                    onClick = { quoteId ->
-                        val mediaItem = MediaItemMatcher.getMediaItemById(quoteId)
-
-                        exoPlayer.setMediaItem(mediaItem)
-                        exoPlayer.prepare()
-                        exoPlayer.play()
-                    },
-                    onFavoriteChange = quotesViewModel::onFavoriteChange
+                    isPlaying = quoteItem.id == currentlyPlayingQuoteId,
+                    onClick = playerViewModel::playQuote,
+                    onFavoriteChange = viewModel::onFavoriteChange
                 )
             }
         }
