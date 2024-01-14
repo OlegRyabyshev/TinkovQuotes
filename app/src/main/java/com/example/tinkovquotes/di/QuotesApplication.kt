@@ -11,7 +11,12 @@ class QuotesApplication : Application() {
 
         startKoin {
             androidContext(this@QuotesApplication)
-            modules(appModule, viewModelModule)
+
+            modules(
+                appModule,
+                viewModelModule,
+                exoPlayerModule
+            )
         }
     }
 }

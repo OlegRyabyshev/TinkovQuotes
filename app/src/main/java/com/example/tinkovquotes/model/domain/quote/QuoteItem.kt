@@ -1,6 +1,6 @@
 package com.example.tinkovquotes.model.domain.quote
 
-data class QuoteDomainModel(
+data class QuoteItem(
     val id: Int,
     val titleText: String,
     val subtitleText: String,

@@ -1,5 +1,8 @@
 package com.example.tinkovquotes.presentation.screen.quotes.compose
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandIn
+import androidx.compose.animation.shrinkOut
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,13 +29,14 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.tinkovquotes.R
-import com.example.tinkovquotes.model.presentation.screen.quotes.QuoteItem
+import com.example.tinkovquotes.model.domain.quote.QuoteItem
 import com.example.tinkovquotes.presentation.theme.Typography
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun QuoteCard(
     quoteItem: QuoteItem,
+    isPlaying: Boolean,
     onClick: (Int) -> Unit,
     onFavoriteChange: (Int, Boolean) -> Unit,
     modifier: Modifier = Modifier
@@ -54,10 +58,11 @@ fun QuoteCard(
         ) {
             QuoteCardContent(
                 quoteItem = quoteItem,
+                isPlaying = isPlaying,
                 onFavoriteChange = onFavoriteChange
             )
 
-            if (quoteItem.isPlaying) {
+            if (isPlaying) {
                 LinearProgressIndicator(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -73,6 +78,7 @@ fun QuoteCard(
 @Composable
 private fun QuoteCardContent(
     quoteItem: QuoteItem,
+    isPlaying: Boolean,
     onFavoriteChange: (Int, Boolean) -> Unit
 ) {
     Row(Modifier.fillMaxSize()) {
@@ -123,11 +129,16 @@ private fun QuoteCardContent(
             )
         }
 
-        if (quoteItem.isPlaying) {
+        AnimatedVisibility(
+            modifier = Modifier
+                .size(48.dp)
+                .align(Alignment.CenterVertically),
+            visible = isPlaying,
+            enter = expandIn { it },
+            exit = shrinkOut { it }
+        ) {
             IconButton(
-                modifier = Modifier
-                    .size(48.dp)
-                    .align(Alignment.CenterVertically),
+                modifier = Modifier.fillMaxSize(),
                 onClick = {}
             ) {
                 Icon(
@@ -148,12 +159,12 @@ private fun QuoteCardPreview() {
         id = 1,
         titleText = "Ты совершил страшное преступление",
         subtitleText = "Ты должен сидеть в тюрьме",
-        isPlaying = true,
         isFavorite = true
     )
 
     QuoteCard(
         quoteItem = quoteItem,
+        isPlaying = true,
         onClick = {},
         onFavoriteChange = { _, _ -> }
     )
