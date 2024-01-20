@@ -9,18 +9,54 @@ class FavoriteQuotesViewModel(
     private val quotesInteractor: QuotesInteractor
 ) : ViewModel() {
 
+    private lateinit var fullQuoteList: List<QuoteItem>
+
+    private val _searchTextStateFlow = MutableStateFlow("")
+    val searchTextStateFlow = _searchTextStateFlow
+
     private val _quotesListStateFlow = MutableStateFlow<List<QuoteItem>>(emptyList())
     val quotesListStateFlow = _quotesListStateFlow
 
-    fun updateFavoriteQuotesList() {
-        val quotesList = quotesInteractor.getFavoriteQuotesList()
-
-        _quotesListStateFlow.value = quotesList
+    init {
+        updateFavoriteQuotesList()
     }
 
     fun onFavoriteChange(quoteId: Int, isFavorite: Boolean) {
         quotesInteractor.updateFavoriteState(quoteId, isFavorite)
 
         updateFavoriteQuotesList()
+    }
+
+    fun onSearchTextChange(searchText: String) {
+        if (searchText == _searchTextStateFlow.value) {
+            return
+        }
+
+        _searchTextStateFlow.value = searchText
+
+        if (searchText.isBlank()) {
+            _quotesListStateFlow.value = fullQuoteList
+            return
+        }
+
+        _quotesListStateFlow.value = fullQuoteList.filter { quote ->
+            val containsInTitle = quote.titleText.contains(
+                other = searchText,
+                ignoreCase = true
+            )
+
+            val containsInSubtitle = quote.subtitleText.contains(
+                other = searchText,
+                ignoreCase = true
+            )
+
+            containsInTitle || containsInSubtitle
+        }
+    }
+
+    private fun updateFavoriteQuotesList() {
+        fullQuoteList = quotesInteractor.getFavoriteQuotesList()
+
+        _quotesListStateFlow.value = fullQuoteList
     }
 }

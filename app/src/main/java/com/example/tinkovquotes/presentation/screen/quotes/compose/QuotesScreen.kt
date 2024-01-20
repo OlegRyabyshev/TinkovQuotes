@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -23,15 +22,16 @@ fun QuotesScreen() {
     val viewModel = koinViewModel<QuotesViewModel>()
     val playerViewModel = koinViewModel<QuotesSharedPlayerViewModel>()
 
+    val searchText by viewModel.searchTextStateFlow.collectAsStateWithLifecycle()
     val quoteList by viewModel.quotesListStateFlow.collectAsStateWithLifecycle()
+
     val currentlyPlayingQuoteId by playerViewModel.currentlyPlayingQuoteId.collectAsStateWithLifecycle()
 
-    LaunchedEffect(Unit) {
-        viewModel.updateQuotesList()
-    }
-
     Column(modifier = Modifier.fillMaxSize()) {
-        QuoteSearch()
+        QuoteSearch(
+            searchText = searchText,
+            onTextChange = viewModel::onSearchTextChange
+        )
 
         LazyColumn(
             modifier = Modifier
