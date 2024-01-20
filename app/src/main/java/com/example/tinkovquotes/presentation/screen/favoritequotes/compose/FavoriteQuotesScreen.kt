@@ -8,11 +8,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.tinkovquotes.presentation.common.search.QuoteSearch
 import com.example.tinkovquotes.presentation.screen.favoritequotes.viewmodel.FavoriteQuotesViewModel
 import com.example.tinkovquotes.presentation.screen.quotes.compose.QuoteCard
 import com.example.tinkovquotes.presentation.screen.quotes.viewmodel.QuotesSharedPlayerViewModel
@@ -23,14 +23,17 @@ fun FavoriteQuotesScreen() {
     val viewModel = koinViewModel<FavoriteQuotesViewModel>()
     val playerViewModel = koinViewModel<QuotesSharedPlayerViewModel>()
 
+    val searchText by viewModel.searchTextStateFlow.collectAsStateWithLifecycle()
     val favoriteQuoteList by viewModel.quotesListStateFlow.collectAsStateWithLifecycle()
+
     val currentlyPlayingQuoteId by playerViewModel.currentlyPlayingQuoteId.collectAsStateWithLifecycle()
 
-    LaunchedEffect(Unit) {
-        viewModel.updateFavoriteQuotesList()
-    }
-
     Column(modifier = Modifier.fillMaxSize()) {
+        QuoteSearch(
+            searchText = searchText,
+            onTextChange = viewModel::onSearchTextChange
+        )
+
         LazyColumn(
             modifier = Modifier
                 .weight(1f)
@@ -39,7 +42,7 @@ fun FavoriteQuotesScreen() {
             contentPadding = PaddingValues(
                 start = 16.dp,
                 end = 16.dp,
-                top = 32.dp,
+                top = 10.dp,
                 bottom = 16.dp
             )
         ) {
