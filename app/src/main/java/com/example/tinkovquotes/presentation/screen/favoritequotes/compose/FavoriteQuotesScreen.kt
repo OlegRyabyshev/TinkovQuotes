@@ -14,7 +14,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.tinkovquotes.presentation.common.search.QuoteSearch
 import com.example.tinkovquotes.presentation.screen.favoritequotes.viewmodel.FavoriteQuotesViewModel
-import com.example.tinkovquotes.presentation.screen.quotes.compose.QuoteCard
 import com.example.tinkovquotes.presentation.screen.quotes.viewmodel.QuotesSharedPlayerViewModel
 import org.koin.androidx.compose.koinViewModel
 
@@ -50,7 +49,7 @@ fun FavoriteQuotesScreen() {
                 items = favoriteQuoteList,
                 key = { quoteItem -> quoteItem.id }
             ) { quoteItem ->
-                QuoteCard(
+                FavoriteQuoteCard(
                     quoteItem = quoteItem,
                     isPlaying = quoteItem.id == currentlyPlayingQuoteId,
                     onClick = playerViewModel::playQuote,

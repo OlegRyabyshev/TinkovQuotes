@@ -2,6 +2,7 @@ package com.example.tinkovquotes.domain.interactor
 
 import com.example.tinkovquotes.domain.repository.QuotesRepository
 import com.example.tinkovquotes.model.domain.quote.QuoteItem
+import com.example.tinkovquotes.model.domain.quote.QuoteItem.TopicItemType
 
 class QuotesInteractorImpl(
     private val quotesRepository: QuotesRepository
@@ -14,8 +15,10 @@ class QuotesInteractorImpl(
         return quotesList.map { quote ->
             QuoteItem(
                 id = quote.id,
-                titleText = quote.titleText,
-                subtitleText = quote.subtitleText,
+                title = quote.titleText,
+                topicType = TopicItemType.entries
+                    .find { it.name.equals(quote.topicType.name, ignoreCase = true) }
+                    ?: TopicItemType.NOT_SURE,
                 isFavorite = favoriteQuotesIdList.contains(quote.id)
             )
         }

@@ -1,11 +1,13 @@
-package com.example.tinkovquotes.model.data.quote
+package com.example.tinkovquotes.model.domain.quote
 
-data class QuoteDataModel(
+data class QuoteItem(
     val id: Int,
-    val titleText: String,
-    val topicType: TopicType
+    val title: String,
+    val topicType: TopicItemType,
+    val isFavorite: Boolean
 ) {
-    enum class TopicType {
+
+    enum class TopicItemType {
         HAPPY,
         LIKING,
         SAD,
