@@ -5,5 +5,19 @@
     <string name="creator_screen_label">Создать видео</string>
     <string name="favorites_screen_label">Избранные</string>
 
-    <string name="search_hint">"Искать цитату"</string>
+    <string name="search_hint">Искать цитату</string>
+
+
+    <string name="topic_type_happy">Позитивный</string>
+    <string name="topic_type_like">Уважающий</string>
+    <string name="topic_type_sad">Грустный</string>
+    <string name="topic_type_annoyed">Раздражённый</string>
+    <string name="topic_type_based">Базированный</string>
+    <string name="topic_type_rich">Богатый</string>
+    <string name="topic_type_dreaming">Мечтающий</string>
+    <string name="topic_type_thinking">Размышляющий</string>
+    <string name="topic_type_sarcastic">Саркастичный</string>
+    <string name="topic_type_questioning">Вопросительный</string>
+    <string name="topic_type_not_caring">Похерестичный</string>
+    <string name="topic_type_not_sure">Непонимающий</string>
 </resources>

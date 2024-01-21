@@ -40,17 +40,7 @@ class QuotesViewModel(
         }
 
         _quotesListStateFlow.value = fullQuoteList.filter { quote ->
-            val containsInTitle = quote.titleText.contains(
-                other = searchText,
-                ignoreCase = true
-            )
-
-            val containsInSubtitle = quote.subtitleText.contains(
-                other = searchText,
-                ignoreCase = true
-            )
-
-            containsInTitle || containsInSubtitle
+            quote.title.contains(other = searchText, ignoreCase = true)
         }
     }
 
