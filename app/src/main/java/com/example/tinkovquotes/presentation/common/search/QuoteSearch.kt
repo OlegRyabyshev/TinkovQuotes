@@ -1,14 +1,15 @@
 package com.example.tinkovquotes.presentation.common.search
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -16,7 +17,9 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.tinkovquotes.R
@@ -41,12 +44,27 @@ fun QuoteSearch(
             onValueChange = onTextChange,
             leadingIcon = {
                 Icon(
-                    modifier = Modifier
-                        .padding(start = 16.dp)
-                        .size(24.dp),
-                    imageVector = Icons.Filled.Search,
+                    modifier = Modifier.padding(start = 16.dp),
+                    imageVector = ImageVector.vectorResource(R.drawable.ic_stop_24dp),
                     contentDescription = null
                 )
+            },
+            trailingIcon = {
+                AnimatedVisibility(
+                    visible = searchText.isNotBlank(),
+                    enter = fadeIn(),
+                    exit = fadeOut()
+                ) {
+                    IconButton(
+                        onClick = { onTextChange.invoke("") }
+                    ) {
+                        Icon(
+                            imageVector = ImageVector.vectorResource(R.drawable.ic_stop_24dp),
+                            tint = Color.Gray,
+                            contentDescription = null
+                        )
+                    }
+                }
             },
             placeholder = {
                 Text(

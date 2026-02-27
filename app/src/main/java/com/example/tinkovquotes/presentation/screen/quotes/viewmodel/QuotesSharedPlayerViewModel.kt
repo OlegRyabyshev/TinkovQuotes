@@ -16,4 +16,10 @@ class QuotesSharedPlayerViewModel(
 
         currentlyPlayingQuoteId.value = quoteId
     }
+
+    fun stopQuote() {
+        quotesSoundPlayer.stopQuote()
+
+        currentlyPlayingQuoteId.value = null
+    }
 }

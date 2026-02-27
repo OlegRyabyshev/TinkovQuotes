@@ -21,8 +21,10 @@ import com.example.tinkovquotes.presentation.theme.Typography
 fun QuotesSection(
     title: String,
     quotesList: List<QuoteItem>,
-    onClick: (Int) -> Unit,
-    onFavoriteChange: (Int, Boolean) -> Unit
+    currentlyPlayingQuoteId: Int?,
+    onPlay: (Int) -> Unit,
+    onStop: () -> Unit,
+    onFavoriteChange: (Int, Boolean) -> Unit,
 ) {
     Column(modifier = Modifier.fillMaxWidth()) {
         Text(
@@ -30,7 +32,7 @@ fun QuotesSection(
             text = title,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
-            style = Typography.titleMedium
+            style = Typography.headlineSmall
         )
 
         LazyRow(
@@ -40,7 +42,9 @@ fun QuotesSection(
             items(quotesList) { quoteItem ->
                 QuoteCard(
                     quoteItem = quoteItem,
-                    onClick = onClick,
+                    isPlaying = quoteItem.id == currentlyPlayingQuoteId,
+                    onPlay = onPlay,
+                    onStop = onStop,
                     onFavoriteChange = onFavoriteChange
                 )
             }
@@ -61,7 +65,9 @@ fun QuotesSectionPreview() {
     QuotesSection(
         title = "О жизни",
         quotesList = listOf(quoteItem, quoteItem, quoteItem),
-        onClick = {},
-        onFavoriteChange = { _, _ -> }
+        currentlyPlayingQuoteId = 1,
+        onPlay = {},
+        onStop = {},
+        onFavoriteChange = { _, _ -> },
     )
 }
