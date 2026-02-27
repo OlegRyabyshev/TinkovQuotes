@@ -19,4 +19,8 @@ class QuotesSoundPlayer(
         exoPlayer.prepare()
         exoPlayer.play()
     }
+
+    fun stopQuote() {
+        exoPlayer.stop()
+    }
 }

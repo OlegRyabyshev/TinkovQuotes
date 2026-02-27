@@ -71,7 +71,9 @@ fun QuotesScreen() {
                 QuotesSection(
                     title = stringResource(sectionTitleRes),
                     quotesList = pair.second,
-                    onClick = playerViewModel::playQuote,
+                    currentlyPlayingQuoteId = currentlyPlayingQuoteId,
+                    onPlay = playerViewModel::playQuote,
+                    onStop = playerViewModel::stopQuote,
                     onFavoriteChange = viewModel::onFavoriteChange
                 )
             }

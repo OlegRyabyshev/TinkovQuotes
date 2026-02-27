@@ -1,25 +1,27 @@
 package com.example.tinkovquotes.presentation.screen.quotes.compose
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -34,50 +36,62 @@ import com.example.tinkovquotes.presentation.theme.Typography
 @Composable
 fun QuoteCard(
     quoteItem: QuoteItem,
-    onClick: (Int) -> Unit,
-    onFavoriteChange: (Int, Boolean) -> Unit
+    isPlaying: Boolean,
+    onPlay: (Int) -> Unit,
+    onStop: () -> Unit,
+    onFavoriteChange: (Int, Boolean) -> Unit,
 ) {
+    val controlWidth by animateDpAsState(
+        targetValue = if (isPlaying) 44.dp else 0.dp,
+        label = "CardWidthLabel"
+    )
+
     Card(
         modifier = Modifier
             .height(92.dp)
-            .width(220.dp)
             .clip(RoundedCornerShape(10.dp)),
-        colors = CardDefaults.cardColors(
-            containerColor = Color.White
-        )
+        onClick = { onPlay.invoke(quoteItem.id) }
     ) {
         Row {
-            Card(
+            Text(
                 modifier = Modifier
-                    .weight(1f)
-                    .fillMaxHeight()
-                    .clip(RoundedCornerShape(10.dp)),
-                onClick = { onClick.invoke(quoteItem.id) }
-            ) {
-                Text(
-                    modifier = Modifier.padding(
-                        horizontal = 10.dp,
+                    .width(220.dp)
+                    .padding(
+                        horizontal = 12.dp,
                         vertical = 10.dp
                     ),
-                    text = quoteItem.title,
-                    maxLines = 4,
-                    overflow = TextOverflow.Ellipsis,
-                    style = Typography.titleMedium
-                )
-            }
-
-            QuoteCardLikeButton(
-                modifier = Modifier.align(Alignment.CenterVertically),
-                quoteItem = quoteItem,
-                onFavoriteChange = onFavoriteChange
+                text = quoteItem.title,
+                maxLines = 4,
+                overflow = TextOverflow.Ellipsis,
+                style = Typography.titleMedium
             )
+
+
+            AnimatedVisibility(
+                visible = isPlaying,
+                enter = fadeIn(),
+                exit = fadeOut()
+            ) {
+                Column(
+                    modifier = Modifier.width(controlWidth),
+                    verticalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    QuoteCardLikeButton(
+                        quoteItem = quoteItem,
+                        onFavoriteChange = onFavoriteChange
+                    )
+
+                    QuoteStopButton(
+                        onStop = onStop
+                    )
+                }
+            }
         }
     }
 }
 
 @Composable
 private fun QuoteCardLikeButton(
-    modifier: Modifier,
     quoteItem: QuoteItem,
     onFavoriteChange: (Int, Boolean) -> Unit
 ) {
@@ -88,16 +102,30 @@ private fun QuoteCardLikeButton(
     }
 
     IconButton(
-        modifier = modifier
-            .clip(CircleShape)
-            .size(28.dp),
+        modifier = Modifier.fillMaxWidth(),
         onClick = { onFavoriteChange.invoke(quoteItem.id, !quoteItem.isFavorite) }
     ) {
         Icon(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(2.dp),
+                .padding(4.dp)
+                .fillMaxSize(),
             imageVector = favoriteIcon,
+            contentDescription = null
+        )
+    }
+}
+
+@Composable
+private fun QuoteStopButton(
+    onStop: () -> Unit
+) {
+    IconButton(
+        modifier = Modifier.fillMaxWidth(),
+        onClick = onStop
+    ) {
+        Icon(
+            modifier = Modifier.fillMaxSize(),
+            imageVector = ImageVector.vectorResource(R.drawable.ic_stop_24dp),
             contentDescription = null
         )
     }
@@ -115,7 +143,9 @@ private fun QuoteCardPreview() {
 
     QuoteCard(
         quoteItem = quoteItem,
-        onClick = {},
-        onFavoriteChange = { _, _ -> }
+        isPlaying = true,
+        onPlay = {},
+        onStop = {},
+        onFavoriteChange = { _, _ -> },
     )
 }
